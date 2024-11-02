@@ -1,20 +1,20 @@
 import sys
 from spacy.language import Language
 from spacy.tokens import Doc
-import nltk
-from nltk.corpus import wordnet
+# import nltk
+# from nltk.corpus import wordnet
 from transformers import pipeline
 from redactors.utils import log_redactions
 import requests
 
-def get_similar_words(concept):
-    related_words = set()
-    synsets = wordnet.synsets(concept)
-    for syn in synsets:
-        for lemma in syn.lemmas():
-            related_words.add(lemma.name())
-    related_words.add(concept)
-    return related_words
+# def get_similar_words(concept):
+#     related_words = set()
+#     synsets = wordnet.synsets(concept)
+#     for syn in synsets:
+#         for lemma in syn.lemmas():
+#             related_words.add(lemma.name())
+#     related_words.add(concept)
+#     return related_words
 
 def get_similar_from_api(concept):
     result = requests.get(f"https://api.datamuse.com/words", params={
