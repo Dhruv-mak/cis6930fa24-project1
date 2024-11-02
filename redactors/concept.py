@@ -32,22 +32,19 @@ def concept_redactor(doc: Doc) -> Doc:
     concepts = doc._.concept
     redactions = []
     classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli", device=0)
-
+    candidate_labels = list(concepts)
+    for concept in concepts:
+        candidate_labels.extend(get_similar_from_api(concept))
+    
     for sent in doc.sents:
-        if any(concept.lower() in sent.text.lower() for concept in concepts):
+        if any(concept.lower() in sent.text.lower() for concept in candidate_labels):
             for token in sent:
                 token._.redact = True
             start_char = sent.start_char
             end_char = sent.end_char
             redactions.append((start_char, end_char))
             continue
-
-        candidate_labels = list(concepts)
-        for concept in concepts:
-            candidate_labels.extend(get_similar_from_api(concept))
         result = classifier(sent.text, candidate_labels=candidate_labels)
-        print(sent.text)
-        print(f"{max(result["scores"])}")
         if any(
             result["labels"][i] in candidate_labels and result["scores"][i] > 0.3
             for i in range(len(result["labels"]))
@@ -57,6 +54,6 @@ def concept_redactor(doc: Doc) -> Doc:
             start_char = sent.start_char
             end_char = sent.end_char
             redactions.append((start_char, end_char))
-
+    
     log_redactions(doc.text, redactions, doc._.input_file, doc._.stream)
     return doc

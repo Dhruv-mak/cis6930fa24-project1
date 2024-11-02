@@ -9,7 +9,7 @@ from redactors.date import date_redactor
 from redactors.phone import phone_redactor
 from redactors.name import name_redactor
 from redactors.address import address_redactor
-from redactors.new_concept import concept_redactor
+from redactors.concept import concept_redactor
 from names_dataset import NameDataset
 from spacy.tokenizer import Tokenizer
 from spacy.util import compile_infix_regex

@@ -5,20 +5,14 @@ name = "pypi"
 
 [packages]
 spacy = "*"
-de_core_news_sm = { file = 'https://github.com/explosion/spacy-models/releases/download/en_core_web_trf-3.8.0/en_core_web_trf-3.8.0-py3-none-any.whl' }
-pytest = "*"
-commonregex = "*"
-pyap = "*"
-names-dataset = "*"
-bertopic = "*"
-sentence-transformers = "*"
 nltk = "*"
 transformers = "*"
+sentence-transformers = "*"
+names-dataset = "*"
+commonregex = "*"
+pyap = "*"
 
 [dev-packages]
 
 [requires]
 python_version = "3.12"
-
-[scripts]
-post_install = "python script.py"
