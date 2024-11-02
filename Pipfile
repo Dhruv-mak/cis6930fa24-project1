@@ -5,7 +5,6 @@ name = "pypi"
 
 [packages]
 spacy = "*"
-nltk = "*"
 transformers = "*"
 sentence-transformers = "*"
 names-dataset = "*"
