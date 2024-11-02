@@ -14,5 +14,8 @@ pyap = "*"
 
 [dev-packages]
 
+[scripts]
+post_install = "./setup.sh"
+
 [requires]
 python_version = "3.12"
