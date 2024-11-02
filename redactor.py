@@ -79,7 +79,7 @@ def main(params: argparse.Namespace) -> None:
     for input_file in params.input:
         Doc.set_extension("input_file", default=input_file, force=True)
         output_file = os.path.join(
-            params.output, os.path.basename(input_file) + ".redacted"
+            params.output, os.path.basename(input_file) + ".censored"
         )
         process_file(nlp, input_file, output_file, stream)
     if params.stats not in ["stdout", "stderr"]:
