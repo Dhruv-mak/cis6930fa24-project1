@@ -21,13 +21,13 @@ This program redacts sensitive information from text files such as names, dates,
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repository.git
-   cd your-repository
+   git clone https://github.com/Dhruv-mak/cis6930fa24-project1.git
+   cd cis6930fa24-project1
    ```
 
 2. Install the required packages:
    ```bash
-   pip install -r requirements.txt
+   pipenv install -e .
    ```
 
 3. Download the spaCy language model:
@@ -40,7 +40,12 @@ This program redacts sensitive information from text files such as names, dates,
 Run the redaction program using the following command:
 
 ```bash
-python main.py --input "data/*.txt" --output "redacted_output" [OPTIONS]
+pipenv run python redactor.py --input "data/*.txt" --output "redacted_output" [OPTIONS]
+```
+To run the python test cases
+
+```bash
+pipenv run python -m pytest
 ```
 
 ### Options
@@ -73,7 +78,7 @@ The address redactor identifies addresses in a document using `pyap` and marks t
 
 ### Concept Redactor
 
-The concept redactor identifies and marks sentences related to specific concepts in a document for redaction. It uses WordNet to find synonyms, Datamuse API to find related words, and utilizes the Hugging Face zero-shot classification model (`facebook/bart-large-mnli`) to accurately determine sentence relevance. If a sentence is found to be related to the specified concepts, all tokens in that sentence are marked for redaction.
+The concept redactor identifies and marks sentences related to specific concepts in a document for redaction. It uses the Datamuse API to find related words and utilizes the Hugging Face zero-shot classification model (`facebook/bart-large-mnli`) to accurately determine sentence relevance. If a sentence is found to be related to the specified concepts or their related words, all tokens in that sentence are marked for redaction by setting the custom attribute `token._.redact` to `True`. The identified redactions are logged using the `log_redactions` function for monitoring and auditing purposes.
 
 
 ## Pipeline
@@ -92,7 +97,7 @@ The concept redactor identifies and marks sentences related to specific concepts
 - **Caveat with Named Entities**: The redactors use regex patterns and may not catch all variations or formats of the entities they are designed to identify.
 - **Custom Tokenizer Issues**: Sometimes the custom tokenizer might not correctly tokenize sentences with unusual delimiters, which may lead to incomplete redaction.
 - **Address Redactor Limitation**: The address parser uses `pyap`, which works only for properly formatted addresses. Addresses that do not conform to expected formats may not be redacted.
-- **Name Redactor Limitation**: The name redactor sometimes fails to redact names in email addresses, such as `phillip.allen@enron.com`, due to limitations in accurately extracting and matching names within email strings.
+- **Name Redactor Limitation**: For name redactor to work properly the name should be present in any email or the context of the sentence should suggest that part is name.
 - **Concept Redactor Flakiness**: The concept redactor generally works well but can occasionally miss obvious concepts, leading to incomplete redaction. This may be due to limitations in the similarity measures or zero-shot classification model inaccuracies.
 
 ## Assumptions
