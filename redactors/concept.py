@@ -31,7 +31,7 @@ def get_similar_from_api(concept):
 def concept_redactor(doc: Doc) -> Doc:
     concepts = doc._.concept
     redactions = []
-    classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli", device=0)
+    classifier = pipeline("zero-shot-classification", model="facebook/bart-large-mnli")
     candidate_labels = list(concepts)
     for concept in concepts:
         candidate_labels.extend(get_similar_from_api(concept))
